@@ -2,6 +2,7 @@
 {
     public class LoggerConfig
     {
+        public string NameFile { get; set; }
         public string TimeFormat { get; set; }
         public string DirectoryPath { get; set; }
         public string FileExtension { get; set; }

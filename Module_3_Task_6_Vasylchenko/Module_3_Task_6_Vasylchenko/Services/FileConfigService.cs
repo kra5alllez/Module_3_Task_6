@@ -5,9 +5,10 @@ using Newtonsoft.Json;
 
 namespace Module_3_Task_6_Vasylchenko.Services
 {
-    public class FileServiceConfig : IFileServiceConfig
+    public class FileConfigService : IFileConfigService
     {
         private const string _pathToJsonFile = "config.json";
+
         public async Task<LoggerConfig> JsonAsync()
         {
             var fs = File.ReadAllText(_pathToJsonFile);

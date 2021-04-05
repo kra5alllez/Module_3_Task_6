@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Module_3_Task_6_Vasylchenko.Exceptions;
+using Module_3_Task_6_Vasylchenko.Services;
 
 namespace Module_3_Task_6_Vasylchenko
 {
@@ -11,6 +12,7 @@ namespace Module_3_Task_6_Vasylchenko
         private readonly Random _random;
         private readonly Logger _logger;
         private readonly Actions _action;
+        private readonly BackupService _backupService = new BackupService();
 
         public Starter()
         {
@@ -30,6 +32,11 @@ namespace Module_3_Task_6_Vasylchenko
             {
                 await ForAsync("StreamTwo_");
             });
+        }
+
+        public async Task BackUp(int number)
+        {
+            await _backupService.SimpleWriteAsync(number);
         }
 
         private async Task ForAsync(string o)

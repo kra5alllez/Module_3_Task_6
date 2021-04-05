@@ -6,7 +6,7 @@ using Module_3_Task_6_Vasylchenko.Configs;
 
 namespace Module_3_Task_6_Vasylchenko.Services
 {
-    public interface IFileServiceConfig
+    public interface IFileConfigService
     {
         Task<LoggerConfig> JsonAsync();
     }

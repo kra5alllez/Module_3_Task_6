@@ -9,7 +9,7 @@ namespace Module_3_Task_6_Vasylchenko
         private readonly Logger _logger = Logger.Instance();
         public async Task<bool> InfoMethod()
         {
-            await _logger.LogInfo($"Start method: {nameof(InfoMethod)}");
+            await _logger.LogInfoAsync($"Start method: {nameof(InfoMethod)}");
             return true;
         }
 

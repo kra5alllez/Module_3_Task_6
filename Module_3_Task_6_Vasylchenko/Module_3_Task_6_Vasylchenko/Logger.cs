@@ -21,26 +21,26 @@ namespace Module_3_Task_6_Vasylchenko
 
         public static Logger Instance() => _instance;
 
-        public async Task LogInfo(string message)
+        public async Task LogInfoAsync(string message)
         {
-            await LogEvent(TypeLog.Info, message);
+            await LogEventAsync(TypeLog.Info, message);
         }
 
-        public async Task LogBsnsExceptions(string message)
+        public async Task LogBsnsExceptionsAsync(string message)
         {
-            await LogEvent(TypeLog.Warning, message);
+            await LogEventAsync(TypeLog.Warning, message);
         }
 
-        public async Task LogExceptions(string message)
+        public async Task LogExceptionsAsync(string message)
         {
-            await LogEvent(TypeLog.Error, message);
+            await LogEventAsync(TypeLog.Error, message);
         }
 
-        public async Task LogEvent(TypeLog typeLog, string message)
+        public async Task LogEventAsync(TypeLog typeLog, string message)
         {
             var logMessage = $"{DateTime.UtcNow}: {typeLog}: {message}";
             Console.WriteLine(logMessage);
-            await _fileService.FileSeve(logMessage);
+            await _fileService.FileSeveAsync(logMessage);
         }
     }
 }

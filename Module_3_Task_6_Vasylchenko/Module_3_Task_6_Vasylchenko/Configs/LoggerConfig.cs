@@ -7,5 +7,7 @@
         public string FileExtension { get; set; }
 
         public int ConfigurableNumber { get; set; }
+
+        public string BackUpPath { get; set; }
     }
 }

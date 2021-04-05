@@ -7,6 +7,6 @@ namespace Module_3_Task_6_Vasylchenko.Services
 {
     public interface IFileService
     {
-        Task FileSeve(string text);
+        Task FileSeveAsync(string text);
     }
 }

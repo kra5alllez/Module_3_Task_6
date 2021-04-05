@@ -11,6 +11,7 @@ namespace Module_3_Task_6_Vasylchenko
         private readonly Random _random;
         private readonly Logger _logger;
         private readonly Actions _action;
+
         public Starter()
         {
             _random = new Random();
@@ -22,16 +23,16 @@ namespace Module_3_Task_6_Vasylchenko
         {
             Task.Run(async () =>
               {
-                  await For(111111);
+                  await ForAsync("StreamOne_");
               });
 
             Task.Run(async () =>
             {
-                await For(222222);
+                await ForAsync("StreamTwo_");
             });
         }
 
-        private async Task For(int o)
+        private async Task ForAsync(string o)
         {
             const int minRandom = 1;
             const int maxRandom = 4;
@@ -39,7 +40,7 @@ namespace Module_3_Task_6_Vasylchenko
             {
                 try
                 {
-                    Console.WriteLine(o);
+                    Console.WriteLine(o + "  " + i);
                     var random = _random.Next(minRandom, maxRandom);
                     switch (random)
                     {
@@ -56,11 +57,11 @@ namespace Module_3_Task_6_Vasylchenko
                 }
                 catch (BusinessException ex)
                 {
-                    await _logger.LogBsnsExceptions($"Action got this custom Exception: {ex.Message}");
+                    await _logger.LogBsnsExceptionsAsync($"Action got this custom Exception: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    await _logger.LogExceptions($"Action failed by reason: {ex.Message}");
+                    await _logger.LogExceptionsAsync($"Action failed by reason: {ex.Message}");
                 }
             }
         }

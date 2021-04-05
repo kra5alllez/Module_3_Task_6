@@ -8,11 +8,11 @@ namespace Module_3_Task_6_Vasylchenko.Services
     public class FileServiceConfig : IFileServiceConfig
     {
         private const string _pathToJsonFile = "config.json";
-        public async Task<Config> Json()
+        public async Task<LoggerConfig> JsonAsync()
         {
             var fs = File.ReadAllText(_pathToJsonFile);
-            var loggerConfig = JsonConvert.DeserializeObject<Config>(fs);
-            return await Task.FromResult(loggerConfig);
+            var config = JsonConvert.DeserializeObject<Config>(fs);
+            return await Task.FromResult(config.Logger);
         }
     }
 }

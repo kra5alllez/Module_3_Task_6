@@ -8,6 +8,6 @@ namespace Module_3_Task_6_Vasylchenko.Services
 {
     public interface IFileServiceConfig
     {
-        Task<Config> Json();
+        Task<LoggerConfig> JsonAsync();
     }
 }

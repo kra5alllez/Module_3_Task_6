@@ -5,34 +5,51 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Module_3_Task_6_Vasylchenko.Configs;
+using Module_3_Task_6_Vasylchenko.Models;
 
 namespace Module_3_Task_6_Vasylchenko.Services
 {
     public class FileService : IFileService
     {
-        private readonly IFileServiceConfig _file;
+        private IFileServiceConfig _file;
         private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
-        private Config _config;
-        private string _path;
+        private LoggerConfig _loggerConfig;
+        private Model _model;
+        private BackupService _bachUp = new BackupService();
+        private int _backupNumber;
 
         public FileService()
         {
+            _backupNumber = 1;
             _file = new FileServiceConfig();
+            InitAsync().GetAwaiter().GetResult();
+            BackUp += _bachUp.SimpleWriteAsync;
         }
 
-        public async Task FileSeve(string text)
+        public event Func<string, string, Task> BackUp;
+
+        public async Task FileSeveAsync(string text)
         {
             await _semaphoreSlim.WaitAsync();
-            _config = await _file.Json();
-            var config = _config.Logger;
-            _path = $@"{config.DirectoryPath}{DateTime.UtcNow.ToString(config.TimeFormat)}{config.FileExtension}";
-            using (StreamWriter streamWriter = new StreamWriter(_path, true, System.Text.Encoding.Default))
+            using (StreamWriter streamWriter = new StreamWriter(_model.PathWrite, true, System.Text.Encoding.Default))
             {
                 await streamWriter.WriteLineAsync(text);
             }
 
+            if (_backupNumber % _loggerConfig.ConfigurableNumber == 0)
+            {
+                await BackUp($"{_loggerConfig.BackUpPath}{DateTime.UtcNow.ToString(_loggerConfig.TimeFormat)}-{_backupNumber}{_loggerConfig.FileExtension}", _model.PathWrite);
+            }
+
+            _backupNumber++;
             _semaphoreSlim.Release();
-            string writePath = _path;
+        }
+
+        private async Task InitAsync()
+        {
+            _loggerConfig = await _file.JsonAsync();
+            var s = $@"{_loggerConfig.DirectoryPath}{DateTime.UtcNow.ToString(_loggerConfig.TimeFormat)}{_loggerConfig.FileExtension}";
+            _model = new Model { PathWrite = s };
         }
     }
 }

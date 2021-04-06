@@ -13,7 +13,7 @@ namespace Module_3_Task_6_Vasylchenko
         private static readonly LoggerService _instance = new LoggerService();
         private readonly IFileService _fileService;
         private readonly IFileConfigService _fileConfigService;
-        private readonly Starter _starter = new Starter();
+        private readonly Starter _starter;
         private readonly SemaphoreSlim _semaphoreSlim;
         private LoggerConfig _loggerConfig;
         private int _backupNumber;
@@ -26,6 +26,7 @@ namespace Module_3_Task_6_Vasylchenko
         {
             _backupNumber = 0;
             _fileService = new FileService();
+            _starter = new Starter();
             _fileConfigService = new FileConfigService();
             _semaphoreSlim = new SemaphoreSlim(1);
             _loggerConfig = new LoggerConfig();

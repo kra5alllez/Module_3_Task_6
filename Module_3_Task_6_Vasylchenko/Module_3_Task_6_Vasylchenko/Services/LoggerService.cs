@@ -24,7 +24,7 @@ namespace Module_3_Task_6_Vasylchenko
 
         private LoggerService()
         {
-            _backupNumber = 1;
+            _backupNumber = 0;
             _fileService = new FileService();
             _fileConfigService = new FileConfigService();
             _semaphoreSlim = new SemaphoreSlim(1);
@@ -54,16 +54,15 @@ namespace Module_3_Task_6_Vasylchenko
         public async Task LogEventAsync(TypeLog typeLog, string message)
         {
             await _semaphoreSlim.WaitAsync();
-            if (_backupNumber % _loggerConfig.ConfigurableNumber == 0)
+            if (_backupNumber % _loggerConfig.ConfigurableNumber == 0 && _backupNumber != 0)
             {
                 await BuckUp(_backupNumber);
             }
 
             _backupNumber++;
-            var logMessage = $"{DateTime.UtcNow}: {typeLog}: {message}";
-            Console.WriteLine(logMessage);
-            await _fileService.FileSeveAsync(logMessage);
             _semaphoreSlim.Release();
+            var logMessage = $"{DateTime.UtcNow}: {typeLog}: {message}";
+            await _fileService.FileSeveAsync(logMessage);
         }
 
         public async Task InitAsync()

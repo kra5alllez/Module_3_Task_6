@@ -27,12 +27,12 @@ namespace Module_3_Task_6_Vasylchenko
         {
             Task.Run(async () =>
               {
-                  await ForAsync("StreamOne_");
+                  await ForAsync();
               });
 
             Task.Run(async () =>
             {
-                await ForAsync("StreamTwo_");
+                await ForAsync();
             });
         }
 
@@ -41,7 +41,7 @@ namespace Module_3_Task_6_Vasylchenko
             await _backupService.SimpleWriteAsync(number);
         }
 
-        private async Task ForAsync(string o)
+        private async Task ForAsync()
         {
             const int minRandom = 1;
             const int maxRandom = 4;
@@ -49,7 +49,6 @@ namespace Module_3_Task_6_Vasylchenko
             {
                 try
                 {
-                    Console.WriteLine(o + "  " + i);
                     var random = _random.Next(minRandom, maxRandom);
                     switch (random)
                     {

@@ -6,7 +6,13 @@ namespace Module_3_Task_6_Vasylchenko
 {
     public class ActionsControllers
     {
-        private readonly LoggerService _logger = LoggerService.Instance();
+        private readonly LoggerService _logger;
+
+        public ActionsControllers()
+        {
+            _logger = LoggerService.Instance();
+        }
+
         public async Task<bool> InfoMethod()
         {
             await _logger.LogInfoAsync($"Start method: {nameof(InfoMethod)}");

@@ -7,7 +7,7 @@ namespace Module_3_Task_6_Vasylchenko
         public static void Main(string[] args)
         {
             Starter s = new Starter();
-            s.Poo();
+            s.Run();
             Console.ReadLine();
         }
     }

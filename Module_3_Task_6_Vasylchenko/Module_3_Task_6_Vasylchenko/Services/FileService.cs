@@ -12,12 +12,13 @@ namespace Module_3_Task_6_Vasylchenko.Services
     public class FileService : IFileService
     {
         private readonly string _path;
-        private IFileConfigService _fileConfigService;
-        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private readonly IFileConfigService _fileConfigService;
+        private readonly SemaphoreSlim _semaphoreSlim;
         private LoggerConfig _loggerConfig;
 
         public FileService()
         {
+            _semaphoreSlim = new SemaphoreSlim(1);
             _fileConfigService = new FileConfigService();
             InitAsync().GetAwaiter().GetResult();
             _path = $@"{_loggerConfig.DirectoryPath}{_loggerConfig.NameFile}{_loggerConfig.FileExtension}";

@@ -6,14 +6,20 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Module_3_Task_6_Vasylchenko.Configs;
+using Module_3_Task_6_Vasylchenko.Services.Interface;
 
 namespace Module_3_Task_6_Vasylchenko.Services
 {
-    public class BackupService
+    public class BackupService : IBackupService
     {
-        private readonly FileConfigService _fileConfigService = new FileConfigService();
-        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
-        private LoggerConfig _loggerConfig = new LoggerConfig();
+        private readonly IFileConfigService _fileConfigService;
+        private LoggerConfig _loggerConfig;
+
+        public BackupService()
+        {
+            _fileConfigService = new FileConfigService();
+            _loggerConfig = new LoggerConfig();
+        }
 
         public async Task SimpleWriteAsync(int backupNumber)
         {
@@ -23,11 +29,10 @@ namespace Module_3_Task_6_Vasylchenko.Services
             await File.WriteAllTextAsync(pathBackup, text);
         }
 
-        private async Task<string> SimpleReadAsync(string readPath)
+        public async Task<string> SimpleReadAsync(string readPath)
         {
-            await _semaphoreSlim.WaitAsync();
             var text = await File.ReadAllTextAsync(readPath);
-            _semaphoreSlim.Release();
+
             return text;
         }
     }

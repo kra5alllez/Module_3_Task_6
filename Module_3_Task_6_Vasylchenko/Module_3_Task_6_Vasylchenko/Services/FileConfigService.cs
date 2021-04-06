@@ -11,7 +11,7 @@ namespace Module_3_Task_6_Vasylchenko.Services
 
         public async Task<LoggerConfig> JsonAsync()
         {
-            var fs = File.ReadAllText(_pathToJsonFile);
+            var fs = await File.ReadAllTextAsync(_pathToJsonFile);
             var config = JsonConvert.DeserializeObject<Config>(fs);
             return await Task.FromResult(config.Logger);
         }

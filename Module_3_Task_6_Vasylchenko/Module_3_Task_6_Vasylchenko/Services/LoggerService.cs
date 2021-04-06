@@ -4,35 +4,37 @@ using System.Threading.Tasks;
 using Module_3_Task_6_Vasylchenko.Configs;
 using Module_3_Task_6_Vasylchenko.Models;
 using Module_3_Task_6_Vasylchenko.Services;
+using Module_3_Task_6_Vasylchenko.Services.Interface;
 
 namespace Module_3_Task_6_Vasylchenko
 {
-    public class Logger
+    public class LoggerService : ILoggerService
     {
-        private static readonly Logger _instance = new Logger();
+        private static readonly LoggerService _instance = new LoggerService();
         private readonly IFileService _fileService;
-        private readonly FileConfigService _fileConfigService = new FileConfigService();
+        private readonly IFileConfigService _fileConfigService;
         private readonly Starter _starter = new Starter();
-        private LoggerConfig _loggerConfig = new LoggerConfig();
-
-        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _semaphoreSlim;
+        private LoggerConfig _loggerConfig;
         private int _backupNumber;
 
-        static Logger()
+        static LoggerService()
         {
         }
 
-        private Logger()
+        private LoggerService()
         {
             _backupNumber = 1;
             _fileService = new FileService();
+            _fileConfigService = new FileConfigService();
+            _semaphoreSlim = new SemaphoreSlim(1);
+            _loggerConfig = new LoggerConfig();
             InitAsync().GetAwaiter().GetResult();
-            BuckUp += _starter.BackUp;
         }
 
         public event Func<int, Task> BuckUp;
 
-        public static Logger Instance() => _instance;
+        public static LoggerService Instance() => _instance;
 
         public async Task LogInfoAsync(string message)
         {
@@ -64,9 +66,10 @@ namespace Module_3_Task_6_Vasylchenko
             _semaphoreSlim.Release();
         }
 
-        private async Task InitAsync()
+        public async Task InitAsync()
         {
             _loggerConfig = await _fileConfigService.JsonAsync();
+            BuckUp += _starter.BackUpAsync;
         }
     }
 }

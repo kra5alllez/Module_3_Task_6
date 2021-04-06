@@ -8,5 +8,7 @@ namespace Module_3_Task_6_Vasylchenko.Services.Interface
 {
     public interface IBackupService
     {
+        Task SimpleWriteAsync(int backupNumber);
+        Task<string> SimpleReadAsync(string readPath);
     }
 }

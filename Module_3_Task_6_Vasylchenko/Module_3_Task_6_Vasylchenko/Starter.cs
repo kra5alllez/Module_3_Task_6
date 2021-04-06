@@ -4,24 +4,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Module_3_Task_6_Vasylchenko.Exceptions;
 using Module_3_Task_6_Vasylchenko.Services;
+using Module_3_Task_6_Vasylchenko.Services.Interface;
 
 namespace Module_3_Task_6_Vasylchenko
 {
     public class Starter
     {
         private readonly Random _random;
-        private readonly Logger _logger;
-        private readonly Actions _action;
-        private readonly BackupService _backupService = new BackupService();
+        private readonly ILoggerService _logger;
+        private readonly ActionsControllers _action;
+        private readonly IBackupService _backupService;
 
         public Starter()
         {
             _random = new Random();
-            _logger = Logger.Instance();
-            _action = new Actions();
+            _logger = LoggerService.Instance();
+            _action = new ActionsControllers();
+            _backupService = new BackupService();
         }
 
-        public void Poo()
+        public void Run()
         {
             Task.Run(async () =>
               {
@@ -34,7 +36,7 @@ namespace Module_3_Task_6_Vasylchenko
             });
         }
 
-        public async Task BackUp(int number)
+        public async Task BackUpAsync(int number)
         {
             await _backupService.SimpleWriteAsync(number);
         }

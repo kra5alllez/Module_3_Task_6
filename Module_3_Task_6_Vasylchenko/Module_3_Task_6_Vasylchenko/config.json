@@ -1,0 +1,10 @@
+{
+  "Logger": {
+    "NameFile": "Logger",
+    "TimeFormat": "hh.mm.ss dd.MM.yyyy",
+    "DirectoryPath": "D:/vs project/kra5alllez/test_Log/",
+    "FileExtension": ".txt",
+    "ConfigurableNumber": "10",
+    "BackUpPath": "D:/vs project/kra5alllez/Backup/"
+  }
+}
